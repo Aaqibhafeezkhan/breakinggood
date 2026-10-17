@@ -7,6 +7,8 @@ npx breakinggood https://github.com/someone/some-app     # clone it, set it up, 
 npx breakinggood https://some-website.com                # rebuild it as code, run it
 ```
 
+![npx breakinggood https://tailwindcss.com, start to finish](docs/demo.gif)
+
 I made this because every time I found an interesting repo I spent twenty minutes
 reading the README, guessing the package manager, copying `.env.example`, and
 wondering whether `npm install` was about to run something nasty. And every time
@@ -87,6 +89,34 @@ one. Whatever key you have is picked up automatically:
 
 Models with vision do a noticeably better job on site mode because they get the
 screenshots. Text-only models get the DOM and tokens and do okay on simple pages.
+
+## Use it from your coding agent
+
+It also runs as an MCP server, so Claude Code, Cursor, Codex or anything else
+that speaks MCP can call it: `capture_site`, `scan_repo`, `clone_and_prepare`.
+Ask your agent "how is linear.app's pricing page built?" or "clone this repo and
+tell me if it's safe to run" and it'll use these.
+
+Claude Code:
+
+```
+claude mcp add breakinggood -- npx -y breakinggood mcp
+```
+
+Cursor / anything with a JSON config:
+
+```json
+{ "mcpServers": { "breakinggood": { "command": "npx", "args": ["-y", "breakinggood", "mcp"] } } }
+```
+
+## How it compares
+
+[open-lovable](https://github.com/firecrawl/open-lovable) and
+[screenshot-to-code](https://github.com/abi/screenshot-to-code) are web apps you
+paste a URL or image into, and they start from a picture. This is one terminal
+command, it also reads the DOM, the computed styles and the network calls (so the
+clone fetches data the way the original did), it works with any model, and it
+does repositories too.
 
 ## Flags
 

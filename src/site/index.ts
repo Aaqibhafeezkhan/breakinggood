@@ -71,6 +71,11 @@ export async function reverseEngineerAndRun(target: ParsedTarget, opts: SiteOpti
 
   // 3. write
   log.step(3, total, "Write project");
+  files.set(
+    "README.md",
+    (files.get("README.md") ?? `# ${target.name}\n`) +
+      `\n---\n\nRebuilt from ${cap.url} with [breakinggood](https://github.com/eklavya2201/breakinggood) — \`npx breakinggood <url>\`.\n`,
+  );
   for (const [rel, content] of files) {
     const full = path.join(dest, rel);
     mkdirSync(path.dirname(full), { recursive: true });

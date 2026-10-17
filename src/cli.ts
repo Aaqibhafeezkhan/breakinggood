@@ -78,4 +78,12 @@ program
     console.log(pc.dim("  override with --provider / --model or BREAKINGGOOD_PROVIDER / BREAKINGGOOD_MODEL"));
   });
 
+program
+  .command("mcp")
+  .description("run as an MCP server (stdio) for Claude Code, Cursor, Codex and friends")
+  .action(async () => {
+    const { startMcpServer } = await import("./mcp.js");
+    await startMcpServer();
+  });
+
 program.parseAsync(process.argv);
