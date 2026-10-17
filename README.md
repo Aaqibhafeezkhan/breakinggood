@@ -23,6 +23,13 @@ later:
 | --- | --- |
 | ![Hacker News](docs/hn-original.png) | ![the rebuilt one](docs/hn-clone.png) |
 
+And a harder one, `npx breakinggood https://tailwindcss.com` — a long marketing
+page with 40 images and 9 API calls. It came back as 8 components, ~700 lines:
+
+| original | clone |
+| --- | --- |
+| ![tailwindcss.com](docs/tailwind-original.png) | ![the rebuilt one](docs/tailwind-clone.png) |
+
 ## What it actually does
 
 **For a repo** (GitHub, GitLab, Bitbucket, Codeberg, or any `.git` URL):
