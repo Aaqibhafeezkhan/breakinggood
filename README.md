@@ -15,6 +15,14 @@ opening devtools for an hour.
 
 So now it's one command.
 
+Here's `npx breakinggood https://news.ycombinator.com`, untouched. Left is the
+real page, right is the React project it wrote and started, about four minutes
+later:
+
+| original | clone |
+| --- | --- |
+| ![Hacker News](docs/hn-original.png) | ![the rebuilt one](docs/hn-clone.png) |
+
 ## What it actually does
 
 **For a repo** (GitHub, GitLab, Bitbucket, Codeberg, or any `.git` URL):
