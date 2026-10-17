@@ -4,8 +4,8 @@
   "description": "One command to clone, reverse-engineer and run any software from a URL. GitHub repo → safely installed and running. Website → rebuilt as a runnable React project with a mock API.",
   "type": "module",
   "bin": {
-    "breakinggood": "./dist/cli.js",
-    "bg": "./dist/cli.js"
+    "breakinggood": "dist/cli.js",
+    "bg": "dist/cli.js"
   },
   "files": [
     "dist",
