@@ -34,7 +34,7 @@ export function isChallengePage(
     if (bodyMarker) return bodyMarker;
   }
 
-  if (/#challenge-form|cf-chl/i.test(html)) {
+  if (/id=["']challenge-form["']|cf-chl/i.test(html)) {
     return "Cloudflare challenge markup";
   }
 
