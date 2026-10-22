@@ -1,6 +1,46 @@
 import { chromium, type Browser, type Page } from "playwright-core";
 import { existsSync } from "node:fs";
 
+export const CHALLENGE_MARKERS = [
+  "Just a moment",
+  "Checking your browser",
+  "Access denied",
+  "Verify you are human",
+  "Enable JavaScript and cookies",
+  "Vercel Security Checkpoint",
+] as const;
+
+const MAX_CHALLENGE_BODY_LENGTH = 1500;
+
+export function isChallengePage(
+  title: string,
+  bodyText: string,
+  html = "",
+  responseStatus?: number,
+): string | undefined {
+  if (responseStatus === 403 || responseStatus === 503) {
+    return `HTTP ${responseStatus} response`;
+  }
+
+  const titleMarker = CHALLENGE_MARKERS.find((marker) =>
+    title.toLowerCase().includes(marker.toLowerCase()),
+  );
+  if (titleMarker) return titleMarker;
+
+  if (bodyText.length < MAX_CHALLENGE_BODY_LENGTH) {
+    const bodyMarker = CHALLENGE_MARKERS.find((marker) =>
+      bodyText.toLowerCase().includes(marker.toLowerCase()),
+    );
+    if (bodyMarker) return bodyMarker;
+  }
+
+  if (/id=["']challenge-form["']|cf-chl/i.test(html)) {
+    return "Cloudflare challenge markup";
+  }
+
+  return undefined;
+}
+
 export interface CapturedRequest {
   method: string;
   url: string;
@@ -118,7 +158,24 @@ export async function captureSite(url: string, opts: CaptureOptions = {}): Promi
     });
 
     log("loading page…");
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: opts.timeoutMs ?? 45_000 });
+    const navigationResponse = await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: opts.timeoutMs ?? 45_000,
+    });
+    const challengeTitle = await page.title();
+    const challengeBody = await page.locator("body").innerText().catch(() => "");
+    const challengeHtml = await page.content().catch(() => "");
+    const challengeMarker = isChallengePage(
+      challengeTitle,
+      challengeBody,
+      challengeHtml,
+      navigationResponse?.status(),
+    );
+    if (challengeMarker) {
+      throw new Error(
+        `Site ${new URL(url).hostname} returned a bot challenge instead of the requested page (matched "${challengeMarker}"). Open the site in a regular browser and resolve the challenge manually before retrying.`,
+      );
+    }
     await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
     await dismissCookieBanners(page);
     await autoScroll(page);
