@@ -172,13 +172,20 @@ export function heuristicPlan(f: RepoFacts): RunPlan {
       plan.run = { cmd: "cargo", args: ["run"], label: "cargo run" };
       plan.confident = true;
       break;
-    case "ruby":
-      plan.install.push({ cmd: "bundle", args: ["install"], label: "bundle install" });
-      plan.run = has("config.ru")
-        ? { cmd: "bundle", args: ["exec", "rails", "server"], label: "rails server" }
-        : null;
-      plan.ports.push(3000);
-      break;
+    
+      case "ruby":
+       plan.install.push({ cmd: "bundle", args: ["install"], label: "bundle install" });
+       if (has("bin/rails") || has("config/application.rb")) {
+       plan.run = { cmd: "bundle", args: ["exec", "rails", "server"], label: "rails server" };
+       plan.ports.push(3000);
+       plan.reasons.push("found bin/rails → Rails app");
+       } else if (has("config.ru")) {
+       plan.run = { cmd: "bundle", args: ["exec", "rackup"], label: "rackup" };
+       plan.ports.push(9292);
+       plan.reasons.push("config.ru without Rails → plain Rack app");
+       }
+       break;
+
     case "php":
       plan.install.push({ cmd: "composer", args: ["install"], label: "composer install" });
       plan.run = has("artisan")
