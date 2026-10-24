@@ -160,3 +160,7 @@ the provider layer. PRs welcome, especially for stack detection on languages I
 don't use much.
 
 MIT.
+
+## Contributing
+
+PRs welcome, including during Hacktoberfest. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [good first issues](https://github.com/eklavya2201/breakinggood/labels/good%20first%20issue).
