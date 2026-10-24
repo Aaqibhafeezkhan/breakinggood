@@ -26,6 +26,8 @@ Node 20+. Site mode needs Chrome or Edge installed (it drives your own browser v
 
 Look at [good first issues](https://github.com/eklavya2201/breakinggood/labels/good%20first%20issue). Comment on one and I'll assign it to you, usually within a day.
 
+One person per issue. If an issue already has an assignee, pick another one, since there are plenty. Wait until you're assigned before opening a PR. If an assigned issue sees no activity for 7 days, it goes back to the pool.
+
 ## PRs
 
 - One thing per PR. Add a test if the code is testable (node:test, see `src/repo/scan.test.ts`).
