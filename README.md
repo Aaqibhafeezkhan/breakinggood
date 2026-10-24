@@ -157,10 +157,7 @@ node dist/cli.js https://github.com/expressjs/express --scan-only
 
 `src/repo/` is clone-and-run, `src/site/` is capture-and-rebuild, `src/ai/` is
 the provider layer. PRs welcome, especially for stack detection on languages I
-don't use much.
+don't use much. See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[good first issues](https://github.com/eklavya2201/breakinggood/labels/good%20first%20issue).
 
 MIT.
-
-## Contributing
-
-PRs welcome, including during Hacktoberfest. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [good first issues](https://github.com/eklavya2201/breakinggood/labels/good%20first%20issue).
