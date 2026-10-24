@@ -25,8 +25,12 @@ export function parseFileBlocks(text: string): Map<string, string> {
 }
 
 function normalise(p: string): string {
-  const clean = p.replace(/\\/g, "/").replace(/^\.\//, "").replace(/^\/+/, "");
-  if (clean.includes("..")) throw new Error(`Refusing path with '..': ${p}`);
+  const slashPath = p.replace(/\\/g, "/");
+  if (/^[a-zA-Z]:\//.test(slashPath) || slashPath.startsWith("//")) {
+    throw new Error(`Refusing absolute path: ${p}`);
+  }
+  const clean = slashPath.replace(/^\.\//, "").replace(/^\/+/, "");
+  if (clean.split("/").includes("..")) throw new Error(`Refusing path with '..': ${p}`);
   return clean;
 }
 
